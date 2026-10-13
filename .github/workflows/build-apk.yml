@@ -46,3 +46,4 @@ jobs:
         with:
           name: Sn-Smart-Release-APK
           path: build_project/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+          
