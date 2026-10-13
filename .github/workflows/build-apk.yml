@@ -1,58 +1,76 @@
-name: Build Sn Smart Android APK
+
+name: Build SN Smart Android APK
 
 on:
   push:
-    branches: [ main, master ]
+    branches:
+      - main
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
+    name: Build Cordova Android APK
     runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Java JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: build_project/package-lock.json
+        continue-on-error: true
 
-      - name: Accept Android SDK Licenses
+      - name: Setup Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Check Android Project
         run: |
-          yes | sdkmanager --licenses || true
+          if [ ! -f build_project/config.xml ]; then
+            echo "ERROR: build_project/config.xml not found"
+            exit 1
+          fi
+
+          if [ ! -d build_project/www ]; then
+            echo "ERROR: build_project/www folder not found"
+            exit 1
+          fi
 
       - name: Install Cordova CLI
-        run: npm install -g cordova
+        run: npm install -g cordova@12.0.0
 
-      - name: Build Cordova Android APK
+      - name: Install Project Dependencies
+        working-directory: build_project
         run: |
-          cordova create build_project com.snsmart.rewardsapp "Sn Smart"
-          cd build_project
-          rm -rf www/*
-          cp -r ../index.html www/
-          cp -r ../js www/
-          cp ../config.xml ./
-          cordova platform add android@12.0.0 --save
+          if [ -f package.json ]; then
+            npm install
+          fi
+
+      - name: Recreate Android Platform
+        working-directory: build_project
+        run: |
+          cordova platform rm android || true
+          cordova platform add android@13.0.0
+
+      - name: Build Debug APK
+        working-directory: build_project
+        run: |
+          cordova requirements android
           cordova build android --debug
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: Sn-Smart-Release-APK
+          name: SN-Smart-Android-APK
           path: build_project/platforms/android/app/build/outputs/apk/debug/app-debug.apk
-          
-
-      - name: Fix XmlParser import
-        run: |
-          FILE="build_project/platforms/android/CordovaLib/cordova.gradle"
-          if [ -f "$FILE" ]; then
-            sed -i '1i import groovy.util.XmlParser' "$FILE"
-          fi
-          
+          if-no-files-found: error
+          retention-days: 7
