@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sn Smart - Elite Rewards Pro</title>
+
+    <!-- Font Awesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --card-bg: rgba(22, 27, 46, 0.95);
+            --primary: #4f46e5;
+            --primary-glow: #6366f1;
+            --accent-gold: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* 3D CINEMATIC SPLASH */
+        .splash-container {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #181d26 0%, #0c0f14 60%, #05070a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .orbital-stage {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+
+        .ring-wrap {
+            position: absolute;
+            width: 260px;
+            height: 110px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .neon-ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top: 3px solid #38bdf8;
+            border-right: 3px solid #0284c7;
+            box-shadow: 0 0 20px #38bdf8, inset 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        .ring-one {
+            transform: rotateX(65deg) rotateY(25deg) rotateZ(0deg);
+            animation: spinRingOne 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        .ring-two {
+            transform: rotateX(65deg) rotateY(-35deg) rotateZ(0deg);
+            animation: spinRingTwo 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes spinRingOne {
+            0% { transform: rotateX(65deg) rotateY(25deg) rotateZ(0deg) scale(0.6); opacity: 0; }
+            40% { opacity: 1; }
+            100% { transform: rotateX(65deg) rotateY(25deg) rotateZ(360deg) scale(1.05); opacity: 0.9; }
+        }
+
+        @keyframes spinRingTwo {
+            0% { transform: rotateX(65deg) rotateY(-35deg) rotateZ(360deg) scale(0.6); opacity: 0; }
+            40% { opacity: 1; }
+            100% { transform: rotateX(65deg) rotateY(-35deg) rotateZ(0deg) scale(1.05); opacity: 0.9; }
+        }
+
+        .brand-reveal-core {
+            text-align: center;
+            z-index: 10;
+            animation: popLogo 1.4s ease-out forwards;
+        }
+
+        .brand-text-3d {
+            font-size: 52px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-transform: lowercase;
+            display: inline-block;
+            text-shadow: 0 10px 25px rgba(0, 0, 0, 0.9), 0 0 30px rgba(56, 189, 248, 0.35);
+        }
+
+        .txt-blue {
+            color: #2563eb;
+            background: linear-gradient(180deg, #60a5fa 0%, #1d4ed8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 10px rgba(37, 99, 235, 0.6));
+        }
+
+        .txt-white {
+            color: #ffffff;
+            text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.8);
+        }
+
+        .brand-subline {
+            font-size: 13px;
+            color: #94a3b8;
+            letter-spacing: 2px;
+            margin-top: 14px;
+            opacity: 0;
+            animation: fadeInSub 1s ease 1s forwards;
+        }
+
+        @keyframes popLogo {
+            0% { transform: scale(0.7); opacity: 0; filter: blur(8px); }
+            100% { transform: scale(1); opacity: 1; filter: blur(0px); }
+        }
+
+        @keyframes fadeInSub {
+            to { opacity: 0.85; }
+        }
+
+        .space-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .p-dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #38bdf8;
+            opacity: 0.7;
+            animation: driftDust 4s infinite linear;
+        }
+
+        .p-dot:nth-child(1) { top: 20%; left: 25%; animation-duration: 3.2s; }
+        .p-dot:nth-child(2) { top: 75%; left: 18%; animation-duration: 4.5s; }
+        .p-dot:nth-child(3) { top: 35%; left: 80%; animation-duration: 3.8s; }
+        .p-dot:nth-child(4) { top: 65%; left: 70%; animation-duration: 5.1s; }
+        .p-dot:nth-child(5) { top: 15%; left: 55%; animation-duration: 2.9s; }
+        .p-dot:nth-child(6) { top: 85%; left: 45%; animation-duration: 4.2s; }
+        .p-dot:nth-child(7) { top: 45%; left: 15%; animation-duration: 3.6s; }
+        .p-dot:nth-child(8) { top: 30%; left: 40%; animation-duration: 4.8s; }
+        .p-dot:nth-child(9) { top: 55%; left: 85%; animation-duration: 3.4s; }
+
+        @keyframes driftDust {
+            0% { transform: translateY(0) scale(1); opacity: 0.3; }
+            50% { opacity: 1; transform: translateY(-12px) scale(1.4); }
+            100% { transform: translateY(-25px) scale(0.6); opacity: 0; }
+        }
+
+        /* AUTH SCREEN */
+        .auth-viewport {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: radial-gradient(circle at top, #1e1b4b 0%, #090d16 100%);
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 36px 24px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 360px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+        }
+
+        .auth-badge-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #818cf8;
+            margin: 0 auto 20px;
+        }
+
+        .auth-card h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+        .auth-card p { color: var(--text-muted); font-size: 13px; line-height: 1.6; margin-bottom: 28px; }
+
+        .btn-google-auth {
+            width: 100%;
+            background: #ffffff;
+            color: #0f172a;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255,255,255,0.15);
+        }
+
+        .btn-google-auth i { color: #ea4335; font-size: 18px; }
+        .auth-footnote { display: block; margin-top: 20px; font-size: 12px; color: #22c55e; font-weight: 500; }
+
+        /* APP VIEWPORT */
+        .app-viewport { max-width: 480px; margin: 0 auto; padding-bottom: 85px; min-height: 100vh; }
+        .app-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px; background: rgba(9, 13, 22, 0.95);
+            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .header-profile { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .avatar-ring img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--primary-glow); }
+        .greeting-sub { font-size: 11px; color: var(--text-muted); }
+        .profile-texts h4 { font-size: 14px; font-weight: 700; }
+        .header-wallet-pill {
+            background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 8px; font-weight: 700; color: #fbbf24; cursor: pointer;
+        }
+        .screens-container { padding: 20px; }
+        .screen-view { display: none; }
+        .screen-view.active-view { display: block; }
+
+        .balance-card {
+            background: linear-gradient(135deg, #312e81, #1e1b4b);
+            padding: 24px; border-radius: 20px; border: 1px solid rgba(99, 102, 241, 0.3);
+            text-align: center; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(49, 46, 129, 0.3);
+        }
+        .balance-badge-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 12px; }
+        .chip-tier { color: #fbbf24; }
+        .chip-status { color: #34d399; }
+        .balance-sub-label { font-size: 11px; letter-spacing: 1.5px; color: #c7d2fe; }
+        .balance-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 8px 0; }
+        .gold-coin { font-size: 28px; color: var(--accent-gold); }
+        .balance-row h1 { font-size: 38px; font-weight: 800; }
+        .fiat-text { background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 12px; font-size: 12px; color: #a5b4fc; }
+
+        .daily-checkin-card, .sponsored-zone-card {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            padding: 16px; border-radius: 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+        }
+        .zone-icon-pulse {
+            width: 44px; height: 44px; background: rgba(99, 102, 241, 0.2); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; color: #818cf8; font-size: 18px;
+        }
+        .zone-details h4 { font-size: 14px; }
+        .zone-details p { font-size: 11px; color: var(--text-muted); margin: 2px 0 4px; }
+
+        .arenas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .arena-tile {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            padding: 20px 16px; border-radius: 16px; text-align: center; cursor: pointer;
+        }
+        .arena-tile i { font-size: 32px; margin-bottom: 10px; }
+        .arena-tile.spin-theme i { color: #818cf8; }
+        .arena-tile.scratch-theme i { color: #f59e0b; }
+        .arena-tile h4 { font-size: 14px; margin-bottom: 4px; }
+        .arena-tile p { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+        .arena-tile span { font-size: 11px; color: var(--primary-glow); font-weight: 700; }
+
+        .btn-action-primary {
+            background: linear-gradient(135deg, #4f46e5, #6366f1); color: #fff; border: none;
+            padding: 14px 24px; border-radius: 12px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); width: 100%; font-size: 15px;
+        }
+        .btn-action-secondary {
+            background: rgba(255, 255, 255, 0.08); color: #fff; border: 1px solid var(--border-color);
+            padding: 12px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px;
+        }
+        .btn-glow-small { background: #6366f1; color: #fff; border: none; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 12px; cursor: pointer; }
+        .btn-action-accent { background: #f59e0b; color: #000; border: none; padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 12px; cursor: pointer; }
+
+        .view-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .quota-pill { background: rgba(99, 102, 241, 0.2); color: #818cf8; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; }
+
+        .wheel-stage { position: relative; width: 320px; height: 320px; margin: 20px auto; }
+        .wheel-pointer {
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 24px solid #ef4444; z-index: 10;
+        }
+        .wheel-center-cap {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 48px; height: 48px; background: #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: #4f46e5; box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+
+        .scratch-stage {
+            position: relative; width: 280px; height: 200px; margin: 30px auto; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .scratch-underlayer {
+            position: absolute; inset: 0; background: radial-gradient(circle, #312e81, #1e1b4b);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .trophy-glow { font-size: 34px; color: var(--accent-gold); margin-bottom: 6px; }
+        #scratchCanvas { position: absolute; inset: 0; z-index: 5; touch-action: none; }
+        .controls-console { text-align: center; margin-top: 20px; }
+        .cooldown-timer-box { margin-top: 12px; font-size: 13px; color: #ef4444; }
+        .ad-network-tag { text-align: center; margin-top: 25px; font-size: 12px; color: var(--text-muted); }
+
+        .wallet-summary-card, .redeem-box, .profile-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); padding: 22px; border-radius: 18px; margin-bottom: 20px;
+        }
+        .summary-inr { font-size: 13px; color: var(--accent-gold); display: block; margin-top: 4px; }
+        .progress-wrap { margin-top: 16px; }
+        .progress-labels {
+            display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 6px;
+        }
+        .progress-track { height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: #22c55e; }
+
+        .payout-options-row { display: flex; gap: 10px; margin: 14px 0; }
+        .payout-chip {
+            flex: 1; text-align: center; padding: 10px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color); border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer;
+        }
+        .payout-chip.active { background: rgba(99, 102, 241, 0.2); border-color: #6366f1; color: #818cf8; }
+
+        .input-group { margin-bottom: 14px; }
+        .input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+        .input-group input, .input-group select {
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color);
+            padding: 12px; border-radius: 10px; color: #fff; font-size: 14px;
+        }
+
+        .profile-card { text-align: center; }
+        .profile-avatar-wrap img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #6366f1; margin-bottom: 12px; }
+        .email-tag { color: var(--text-muted); font-size: 13px; display: block; margin-bottom: 20px; }
+        .profile-stats-row {
+            display: flex; justify-content: space-around; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; margin-bottom: 25px;
+        }
+        .stat-value { display: block; font-size: 16px; font-weight: 700; color: #818cf8; }
+        .stat-label { font-size: 11px; color: var(--text-muted); }
+        .btn-logout { background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #f87171; width: 100%; padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+
+        .bottom-dock {
+            position: fixed; bottom: 0; left: 0; right: 0; max-width: 480px; margin: 0 auto;
+            background: rgba(9, 13, 22, 0.95); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid var(--border-color); z-index: 100;
+        }
+        .dock-item { background: none; border: none; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; cursor: pointer; }
+        .dock-item i { font-size: 18px; }
+        .dock-item.active { color: #818cf8; }
+
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 999;
+        }
+        .modal-card { background: #1e1b4b; border: 1px solid #6366f1; padding: 30px; border-radius: 20px; text-align: center; max-width: 300px; width: 90%; }
+        .modal-icon { font-size: 42px; color: var(--accent-gold); margin-bottom: 10px; }
+        .modal-coins-display { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 12px 0 20px; }
+        .modal-coins-display h1 { font-size: 36px; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <!-- CINEMATIC ORBITAL 3D SPLASH SCREEN -->
+    <div id="splashScreen" class="splash-container">
+        <div class="space-particles">
+            <span class="p-dot"></span><span class="p-dot"></span><span class="p-dot"></span>
+            <span class="p-dot"></span><span class="p-dot"></span><span class="p-dot"></span>
+            <span class="p-dot"></span><span class="p-dot"></span><span class="p-dot"></span>
+        </div>
+
+        <div class="orbital-stage">
+            <div class="ring-wrap ring-one"><div class="neon-ring"></div></div>
+            <div class="ring-wrap ring-two"><div class="neon-ring"></div></div>
+
+            <div class="brand-reveal-core">
+                <h1 class="brand-text-3d">
+                    <span class="txt-blue">sn</span> <span class="txt-white">smart</span>
+                </h1>
+                <p class="brand-subline">Made by sn smart</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTH GATEWAY -->
+    <div id="authScreen" class="auth-viewport hidden">
+        <div class="auth-card">
+            <div class="auth-badge-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h2>Welcome to Sn Smart</h2>
+            <p>Sign in with your Google account to sync and protect your cloud wallet balance.</p>
+            
+            <button id="btnGoogleSignIn" class="btn-google-auth">
+                <i class="fa-brands fa-google"></i>
+                <span>Continue with Google</span>
+            </button>
+            <span class="auth-footnote"><i class="fa-solid fa-lock"></i> Anti-Cheat Enabled • Instant UPI Payouts</span>
+        </div>
+    </div>
+        <!-- MAIN APP VIEWPORT -->
+    <div id="mainApp" class="app-viewport hidden">
+        <header class="app-header">
+            <div class="header-profile" id="headerProfileTrigger">
+                <div class="avatar-ring">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=SnUser" id="topNavAvatar" alt="User Avatar">
+                </div>
+                <div class="profile-texts">
+                    <span class="greeting-sub">Online Player</span>
+                    <h4 id="topNavName">Player</h4>
+                </div>
+            </div>
+            <div class="header-wallet-pill" id="headerWalletTrigger">
+                <div class="coin-badge-icon"><i class="fa-solid fa-coins"></i></div>
+                <span id="topNavBalance">0</span>
+            </div>
+        </header>
+
+        <main class="screens-container">
+            <!-- VIEW 1: HOME -->
+            <section id="viewHome" class="screen-view active-view">
+                <div class="balance-card">
+                    <div class="balance-badge-row">
+                        <span class="chip-tier"><i class="fa-solid fa-crown"></i> Silver Tier</span>
+                        <span class="chip-status"><i class="fa-solid fa-cloud-check"></i> Cloud Synced</span>
+                    </div>
+                    <span class="balance-sub-label">TOTAL EARNINGS</span>
+                    <div class="balance-row">
+                        <i class="fa-solid fa-coins gold-coin"></i>
+                        <h1 id="dashCoinCount">0</h1>
+                    </div>
+                    <span class="fiat-text" id="dashFiatEstimate">≈ ₹0.00 INR</span>
+                </div>
+
+                <div class="daily-checkin-card">
+                    <div class="checkin-meta">
+                        <h4><i class="fa-solid fa-calendar-check text-gold"></i> Daily Check-in</h4>
+                        <p>Claim daily free bonus points</p>
+                    </div>
+                    <button class="btn-glow-small" id="btnClaimDaily">Claim +50</button>
+                </div>
+
+                <div class="sponsored-zone-card">
+                    <div class="zone-icon-pulse"><i class="fa-solid fa-play"></i></div>
+                    <div class="zone-details">
+                        <h4>Watch Ads & Earn</h4>
+                        <p>Watch short sponsored video streams</p>
+                        <span class="quota-pill" id="quotaWatchAds">15/15 Left</span>
+                    </div>
+                    <button class="btn-action-accent" id="btnWatchVideoAd">Watch Now</button>
+                </div>
+
+                <div class="arenas-grid">
+                    <div class="arena-tile spin-theme" id="jumpToSpin">
+                        <i class="fa-solid fa-dharmachakra"></i>
+                        <h4>Lucky Wheel</h4>
+                        <p>Spin for multipliers</p>
+                        <span id="homeSpinQuota">15 Left</span>
+                    </div>
+                    <div class="arena-tile scratch-theme" id="jumpToScratch">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <h4>Golden Scratch</h4>
+                        <p>Foil scratch reveal</p>
+                        <span id="homeScratchQuota">15 Left</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 2: SPIN -->
+            <section id="viewSpin" class="screen-view">
+                <div class="view-header">
+                    <h2>Lucky Wheel Arena</h2>
+                    <span class="quota-pill" id="spinQuota">15/15 Left</span>
+                </div>
+                <div class="wheel-stage">
+                    <div class="wheel-pointer"></div>
+                    <canvas id="wheelCanvas" width="320" height="320"></canvas>
+                    <div class="wheel-center-cap"><i class="fa-solid fa-star"></i></div>
+                </div>
+                <div class="controls-console">
+                    <button class="btn-action-primary" id="btnSpinWheel"><i class="fa-solid fa-dharmachakra"></i> Spin & Win</button>
+                    <div class="cooldown-timer-box hidden" id="spinTimerBox">
+                        <i class="fa-regular fa-clock"></i> Cooldown: <strong id="spinTimerSeconds">45s</strong>
+                    </div>
+                </div>
+                <div class="ad-network-tag"><i class="fa-solid fa-shield-halved"></i> AdMob Rewarded Network Active</div>
+            </section>
+
+            <!-- VIEW 3: SCRATCH -->
+            <section id="viewScratch" class="screen-view">
+                <div class="view-header">
+                    <h2>Golden Scratch Arena</h2>
+                    <span class="quota-pill" id="scratchQuota">15/15 Left</span>
+                </div>
+                <div class="scratch-stage">
+                    <div class="scratch-underlayer">
+                        <i class="fa-solid fa-trophy trophy-glow"></i>
+                        <span class="prize-tag">You Unlocked</span>
+                        <h2 id="scratchPrizeVal">+50</h2>
+                        <span class="points-unit">Coins</span>
+                    </div>
+                    <canvas id="scratchCanvas" width="280" height="200"></canvas>
+                </div>
+                <div class="controls-console">
+                    <button class="btn-action-primary hidden" id="btnClaimScratch"><i class="fa-solid fa-gem"></i> Collect Reward</button>
+                    <button class="btn-action-secondary" id="btnNewScratch"><i class="fa-solid fa-rotate-right"></i> Unlock New Card</button>
+                    <div class="cooldown-timer-box hidden" id="scratchTimerBox">
+                        <i class="fa-regular fa-clock"></i> Cooldown: <strong id="scratchTimerSeconds">45s</strong>
+                    </div>
+                </div>
+                <div class="ad-network-tag"><i class="fa-solid fa-shield-halved"></i> Unity Ads Rewarded Network Active</div>
+            </section>
+
+            <!-- VIEW 4: WALLET -->
+            <section id="viewWallet" class="screen-view">
+                <div class="view-header">
+                    <h2>Wallet & Payouts</h2>
+                    <span class="status-pill verified"><i class="fa-solid fa-circle-check"></i> Active</span>
+                </div>
+                <div class="wallet-summary-card">
+                    <span class="summary-sub">Redeemable Balance</span>
+                    <h2 id="walletBalance">0 Coins</h2>
+                    <span class="summary-inr" id="walletCashValuation">Value: ₹0.00 INR</span>
+                    <div class="progress-wrap">
+                        <div class="progress-labels">
+                            <span>Payout Goal (Min. 1,000)</span>
+                            <span id="payoutProgressPct">0%</span>
+                        </div>
+                        <div class="progress-track"><div class="progress-bar-fill" id="payoutProgress" style="width: 0%;"></div></div>
+                    </div>
+                </div>
+                <div class="redeem-box">
+                    <h3>Select Payout Method</h3>
+                    <div class="payout-options-row">
+                        <div class="payout-chip active" data-method="upi"><i class="fa-solid fa-qrcode"></i> UPI</div>
+                        <div class="payout-chip" data-method="paytm"><i class="fa-solid fa-wallet"></i> Paytm</div>
+                        <div class="payout-chip" data-method="playcode"><i class="fa-brands fa-google-play"></i> Play Code</div>
+                    </div>
+                    <div class="input-group">
+                        <label id="lblPayoutInput">UPI ID (e.g. name@upi)</label>
+                        <input type="text" id="payoutInput" placeholder="Enter valid UPI ID">
+                    </div>
+                    <div class="input-group">
+                        <label>Coin Package</label>
+                        <select id="payoutPackageSelect">
+                            <option value="1000">1,000 Coins = ₹10</option>
+                            <option value="5000">5,000 Coins = ₹55 (+₹5 Bonus)</option>
+                            <option value="10000">10,000 Coins = ₹120 (+₹20 Bonus)</option>
+                        </select>
+                    </div>
+                    <button class="btn-action-primary" id="btnSubmitWithdraw"><i class="fa-solid fa-paper-plane"></i> Request Payout</button>
+                </div>
+            </section>
+
+            <!-- VIEW 5: PROFILE -->
+            <section id="viewProfile" class="screen-view">
+                <div class="profile-card">
+                    <div class="profile-avatar-wrap">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=SnUser" id="profileFullAvatar" alt="User">
+                    </div>
+                    <h2 id="profileFullName">User Name</h2>
+                    <span id="profileFullEmail" class="email-tag">user@email.com</span>
+                    <div class="profile-stats-row">
+                        <div class="stat-cell"><span class="stat-value" id="statTotalSpins">0/15</span><span class="stat-label">Spins Today</span></div>
+                        <div class="stat-cell"><span class="stat-value" id="statTotalScratches">0/15</span><span class="stat-label">Scratches Today</span></div>
+                        <div class="stat-cell"><span class="stat-value" id="statTotalAds">0/15</span><span class="stat-label">Ads Today</span></div>
+                    </div>
+                    <button class="btn-logout" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> Logout Account</button>
+                </div>
+            </section>
+        </main>
+
+        <nav class="bottom-dock">
+            <button class="dock-item active" data-target="viewHome"><i class="fa-solid fa-house"></i><span>Home</span></button>
+            <button class="dock-item" data-target="viewSpin"><i class="fa-solid fa-dharmachakra"></i><span>Spin</span></button>
+            <button class="dock-item" data-target="viewScratch"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Scratch</span></button>
+            <button class="dock-item" data-target="viewWallet"><i class="fa-solid fa-wallet"></i><span>Wallet</span></button>
+            <button class="dock-item" data-target="viewProfile"><i class="fa-solid fa-user"></i><span>Profile</span></button>
+        </nav>
+    </div>
+
+    <!-- REWARD MODAL -->
+    <div id="claimModal" class="modal-backdrop hidden">
+        <div class="modal-card">
+            <div class="modal-icon"><i class="fa-solid fa-trophy"></i></div>
+            <h3>Congratulations!</h3>
+            <p>Added to secure cloud ledger:</p>
+            <div class="modal-coins-display"><span>🪙</span><h1 id="modalAwardCount">+0</h1></div>
+            <button class="btn-action-primary" id="btnCloseModal">Collect Reward</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- App Modular Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/wallet.js"></script>
+    <script src="js/spin.js"></script>
+    <script src="js/scratch.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
