@@ -48,3 +48,11 @@ jobs:
           name: Sn-Smart-Release-APK
           path: build_project/platforms/android/app/build/outputs/apk/debug/app-debug.apk
           
+
+      - name: Fix XmlParser import
+        run: |
+          FILE="build_project/platforms/android/CordovaLib/cordova.gradle"
+          if [ -f "$FILE" ]; then
+            sed -i '1i import groovy.util.XmlParser' "$FILE"
+          fi
+          
